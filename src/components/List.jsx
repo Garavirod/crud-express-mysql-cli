@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import axios from "axios";
+// import axios from "axios";
 
 const List = () => {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    getEmployeeList();
+  }, []);
+
+  const getEmployeeList = async () => {
+    // Using fetch - Body property
+    // You can use jsonplaceholder.com 
+    // const result = await fetch("http://localhost:3000/employee/list");
+    // const post = await result.json();
+    // setData(post);
+    // Using Axios  - Data property
+    axios.get('http://localhost:3000/employee/list')
+    .then(res=>{
+      setData(res.data.data);
+    })
+    .catch(err=>{
+      console.log(err);
+    });
+  };
+
+
   return (
-    <table class="table table-hover table-striped">
-      <thead class="thead-dark">
+    <table className="table table-hover table-striped">
+      <thead className="thead-dark">
         <tr>
           <th scope="col">#</th>
           <th scope="col">Role</th>
@@ -13,24 +37,26 @@ const List = () => {
           <th scope="col">Email</th>
           <th scope="col">Address</th>
           <th scope="col">Phone</th>
-          <th colspan="2">Action</th>
+          <th colSpan="2">Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th>1</th>
-          <td>Admin</td>
-          <td>John Smitth</td>
-          <td>jhonsmith@mail.com</td>
-          <td>California</td>
-          <td>317785847</td>
-          <td>
-            <button class="btn btn-outline-info "> Edit </button>
-          </td>
-          <td>
-            <button class="btn btn-outline-danger "> Delete </button>
-          </td>
-        </tr>
+        {data.map((item) => (
+          <tr key={item.id}>
+            <th>{item.id}</th>
+            <td>{item.role.role}</td>
+            <td>{item.name}</td>
+            <td>{item.email}</td>
+            <td>{item.address}</td>
+            <td>{item.phone}</td>
+            <td>
+              <button className="btn btn-outline-info "> Edit </button>
+            </td>
+            <td>
+              <button className="btn btn-outline-danger "> Delete </button>
+            </td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );

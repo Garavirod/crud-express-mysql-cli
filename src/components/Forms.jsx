@@ -1,46 +1,112 @@
-import React from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import axios from "axios";
 
 const Form = () => {
   let userId = 0;
   //let userId = this.props.match.params.employeeId;
+  const [user,setUser] = useState({
+    name : '',
+    email:'',
+    address:'',
+    phone : '',
+    role :'',
+  });
+
+
+  const handleInputChange = (event) =>{
+    // console.log(event.target.value);
+    setUser({
+        ...user,
+        [event.target.name]: event.target.value
+    });
+    
+  };
+
+  const sendData = (event) =>{
+    // console.log(user);
+    const url = "http://localhost:3000/employee/create";
+    if(user.name !== "" && user.address !== "" && user.email !== "" && user.phone !== ""&& user.role !== ""){
+      axios.post(url,user)
+      .then(res=>{
+        if(res.data.success === true){
+          alert("User register succesfully!");
+        }else{
+          alert(res.data.message);
+        }
+      })
+      .catch(err=>{
+        console.log(err);
+      });      
+    }else{
+      event.preventDefault();
+      alert("Empty fields!!");
+    }
+    
+  }
+
   return (
-    <form>
-      <div class="form-row justify-content-center">
-        <div class="form-group col-md-6">
-          <label for="inputPassword4">Name {userId}</label>
-          <input type="text" class="form-control" placeholder="Name" />
+    <form onSubmit={sendData}>
+      <div className="form-row justify-content-center">
+        <div className="form-group col-md-6">
+          <label htmlFor="inputPassword4">Name {userId}</label>
+          <input 
+            type="text" 
+            className="form-control" 
+            placeholder="Name"
+            name="name" 
+            onChange = {handleInputChange}
+            />
         </div>
-        <div class="form-group col-md-6">
-          <label for="inputEmail4">Email</label>
-          <input type="email" class="form-control" placeholder="Email" />
+        <div className="form-group col-md-6">
+          <label htmlFor="inputEmail4">Email</label>
+          <input 
+            type="email"
+            className="form-control" 
+            placeholder="Email"
+            name="email" 
+            onChange = {handleInputChange}/>
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="inputState">Role</label>
-          <select id="inputState" class="form-control">
-            <option selected>Choose...</option>
-            <option>...</option>
+      <div className="form-row">
+        <div className="form-group col-md-6">
+          <label htmlFor="inputState">Role</label>
+          <select 
+            id="inputState" 
+            className="form-control"
+            name="role"
+            onChange = {handleInputChange}
+            >
+            <option defaultValue>Choose ..</option>
+            <option>Adimin</option>
+            <option>Employee</option>
           </select>
         </div>
-        <div class="form-group col-md-6">
-          <label for="inputEmail4">Phone</label>
-          <input type="number" class="form-control" placeholder="Email" />
+        <div className="form-group col-md-6">
+          <label htmlFor="inputEmail4">Phone</label>
+          <input 
+            type="text" 
+            className="form-control" 
+            placeholder="phone"
+            name="phone" 
+            onChange = {handleInputChange}
+            />
         </div>
       </div>
-      <div class="form-group">
-        <label for="inputAddress">Address</label>
+      <div className="form-group">
+        <label htmlFor="inputAddress">Address</label>
         <input
           type="text"
-          class="form-control"
+          className="form-control"
           id="inputAddress"
           placeholder="1234 Main St"
+          name="address"
+          onChange = {handleInputChange}
         />
       </div>
 
-      <button type="submit" class="btn btn-primary">
+      <button type="submit" className="btn btn-primary">
         Sign in
       </button>
     </form>
