@@ -13,14 +13,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <a
-            className="navbar-brand"
-            href="https://www.tutofox.com/"
-            style={{ color: "orange", fontWeight: "bold" }}
-          >
-            tutofox.com
-          </a>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">          
           <button
             className="navbar-toggler"
             type="button"
@@ -35,7 +28,7 @@ function App() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item active">
-              <Link className="nav-link" to="/">Manage Employee </Link>
+              <Link className="nav-link btn btn-primary text-white" to="/">List employees</Link>
               </li>
             </ul>
             <Link className="btn btn-info"  to="/form">Add Employee </Link>

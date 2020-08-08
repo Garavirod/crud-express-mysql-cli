@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import axios from "axios";
-// import axios from "axios";
 
 const List = () => {
   const [data, setData] = useState([]);
@@ -17,7 +17,7 @@ const List = () => {
     // const post = await result.json();
     // setData(post);
     // Using Axios  - Data property
-    axios.get('http://localhost:3000/employee/list')
+    axios.get('http://localhost:3000/api/list')
     .then(res=>{
       setData(res.data.data);
     })
@@ -50,7 +50,7 @@ const List = () => {
             <td>{item.address}</td>
             <td>{item.phone}</td>
             <td>
-              <button className="btn btn-outline-info "> Edit </button>
+              <Link className="btn btn-outline-info " to={`/edit/${item.id}`}> Edit </Link>
             </td>
             <td>
               <button className="btn btn-outline-danger "> Delete </button>
