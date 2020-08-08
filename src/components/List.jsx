@@ -27,6 +27,22 @@ const List = () => {
   };
 
 
+  const DeleteEmployee = (item) =>{
+    axios.delete(`http://localhost:3000/api/delete/${item}`)
+    .then(res=>{
+      if(res.data.success){        
+        alert(res.data.message);
+        getEmployeeList(); //Reload the list
+      }else{
+        alert("Not deleted");
+      }
+    })
+    .catch(err=>{
+      console.log(err);
+    });
+  }
+
+
   return (
     <table className="table table-hover table-striped">
       <thead className="thead-dark">
@@ -53,7 +69,7 @@ const List = () => {
               <Link className="btn btn-outline-info " to={`/edit/${item.id}`}> Edit </Link>
             </td>
             <td>
-              <button className="btn btn-outline-danger "> Delete </button>
+              <button className="btn btn-outline-danger " onClick={()=>DeleteEmployee(item.id)}> Delete </button>
             </td>
           </tr>
         ))}
